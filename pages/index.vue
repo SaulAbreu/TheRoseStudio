@@ -21,12 +21,17 @@
 </template>
 
 <script>
+import api from '~/services/api'
 import RestaurantCard from '~/components/RestaurantCard'
 import Hero from '~/components/Hero'
 export default {
   components: {
     RestaurantCard,
     Hero
+  },
+  async created() {
+    const response = await api.getRestaurants()
+    this.restaurants = response.data
   },
   methods:{
     sumRestaurantLikes() {
