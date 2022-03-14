@@ -7,31 +7,42 @@
     </div>
     <div class="columns">
       <div class="column has-text-left">
-        <input class="input" type="text" placeholder="email" />
+        <input class="input" type="text" placeholder="email" v-model="email"/>
       </div>
     </div>
     <div class="columns">
       <div class="column has-text-left">
-        <input class="input" type="text" placeholder="contraseña" />
+        <input class="input" type="text" placeholder="contraseña" v-model="password"/>
       </div>
     </div>
     <div class="columns">
       <div class="column has-text-centered">
         <nuxt-link to="/" class="button is-danger">Cancelar</nuxt-link>
-        <nuxt-link to="/admin" class="button is-primary">Login</nuxt-link>
+        <button @click="onLogin" class="button is-primary">
+          Login
+        </button>
       </div>
     </div>
   </div>
 </template>
-
 <script>
+import { firebase } from '~/plugins/firebase'
+
 export default {
-  layout: 'login'
+  layout: 'login',
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },  
+  methods: {
+    onLogin() {
+      const response = firebase.auth().signInWithEmailAndPassword(this.email, this.password)
+      response.then(data => {
+        this.$router.push('admin')
+      })
+    }
+  }
 }
 </script>
-
-<style>
-.box-login {
-  margin-top: 30px;
-}
-</style>
